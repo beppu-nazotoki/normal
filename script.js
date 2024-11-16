@@ -205,6 +205,11 @@ document.getElementById('keyword-form').addEventListener('submit', function(even
             awardedNumbers.push(number);  // 追加：番号をリストに追加
             points += gainedPoints;
 
+            // 「あいことば」ポップアップの条件
+            if (keyword === "1べっぷ" || keyword === "1別府") {
+                showKeywordPopup();
+            }
+
             // ローカルストレージにデータを保存
             localStorage.setItem('keywords', JSON.stringify(keywords));
             localStorage.setItem('points', points);
@@ -230,7 +235,7 @@ document.getElementById('keyword-form').addEventListener('submit', function(even
     } else if (keywords.includes(keyword)) {
         alert("入力済みです。");
     } else {
-        alert("設定されていないキーワードです。");
+        alert("(数字)+(答え)で入力してください。");
     }
 });
 
@@ -331,6 +336,25 @@ function showPopupMessage(message) {
     }, 1500); // 3秒後に消える
 }
 
+// ポップアップ表示関数
+function showKeywordPopup() {
+    const popup = document.createElement('div');
+    popup.className = 'keyword-popup';
+    popup.innerText = 'LINEに「入力できた」と送信しよう';
+
+    document.body.appendChild(popup);
+
+    // ポップアップを2秒後に削除
+    setTimeout(() => {
+        popup.remove();
+    }, 15000);
+}
+
+// 「あいことば」ポップアップの追加条件
+if (keyword === "1べっぷ" || keyword === "1別府") {
+    showKeywordPopup();
+}
+
 // フォーム送信時の処理
 document.getElementById('keyword-form').addEventListener('submit', function(event) {
     event.preventDefault();
@@ -364,6 +388,6 @@ document.getElementById('keyword-form').addEventListener('submit', function(even
             alert("入力済みです。");
         }
     } else {
-        alert("設定されていないキーワードです。");
+        alert("(数字)+(答え)で入力してください。");
     }
 });
